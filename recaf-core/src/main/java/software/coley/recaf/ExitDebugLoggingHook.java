@@ -19,6 +19,7 @@ import java.lang.invoke.MethodType;
 import java.lang.module.ModuleReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
