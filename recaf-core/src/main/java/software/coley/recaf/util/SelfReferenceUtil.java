@@ -103,13 +103,14 @@ public class SelfReferenceUtil {
 		} else {
 			try {
 				// You may be asking yourself "wtf is this?"
-				// Well, if this is run via gradle the current path is: 'recaf-ui/build/classes/java/main'
-				//  - Needs to become: 'recaf-ui/build/resources/main'
+				// Well, if this is run via gradle the current path is usually a module classes directory like:
+				//  - 'recaf-core/build/classes/java/main'
+				//  - Needs to become: 'recaf-core/build/resources/main'
 				//  - So cd '../../resources/main'
 				// But if you want to use IntelliJ's optimized run (waaaaay faster startup than Gradle) this changes.
 				// However, for both you can use the system classloader's internal state to check the loaded directories.
 				// Using this we scan for '/resources/' since this is a common path element in each case.
-				// Plus, this supports finding files from all modules, not just the 'recaf-ui' module.
+				// Plus, this supports finding files from all loaded modules, not just the main runtime module.
 				List<URL> resourceDirUrls = ClassLoaderInternals.getUcpPathList(ClassLoaderInternals.getUcp()).stream()
 						.filter(url -> url.toString().contains("/resources/"))
 						.toList();

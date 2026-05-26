@@ -157,8 +157,7 @@ tasks.register('test') {
 }
 
 tasks.register('build') {
-    // Build will run tests, unless skipped by '-x test'.
-    // Even if skipped, this will still lead to the subproject build tasks being executed, such as:
-    //  - recaf-ui:shadowJar
+    // Build all active subprojects and run the aggregate test/coverage workflow.
+    dependsOn(subprojects.build)
     dependsOn(tasks.named('test'))
 }

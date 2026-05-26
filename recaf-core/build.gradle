@@ -1,7 +1,9 @@
 import java.nio.file.Files
 
 plugins {
+    id 'application'
     alias(libs.plugins.peterabeles.gversion)
+    alias(libs.plugins.shadow)
 }
 
 apply plugin: 'java-library'
@@ -75,6 +77,33 @@ sourceSets {
 clean {
     // Delete the generated gversion class when cleaning
     delete 'src/generated'
+}
+
+application {
+    mainClass = 'software.coley.recaf.Main'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Enable-Native-Access': 'ALL-UNNAMED',
+                'Main-Class': 'software.coley.recaf.Main'
+        )
+    }
+}
+
+shadowJar {
+    archiveClassifier = 'all'
+    exclude "META-INF/maven/**"
+    exclude "META-INF/rewrite/**"
+    exclude "META-INF/proguard/*"
+    exclude "META-INF/plugins/*"
+    exclude "META-INF/native-image/*"
+    exclude "META-INF/*.properties"
+}
+
+tasks.named('build') {
+    dependsOn(tasks.named('shadowJar'))
 }
 
 private boolean isBuildConfigUpToDate() {

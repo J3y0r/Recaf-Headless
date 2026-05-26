@@ -36,9 +36,13 @@ public class LaunchCommand implements Callable<Boolean> {
 	private File dataDir;
 	@Option(names = {"-r", "--extraplugins"}, description = "Point to an external location to load additional plugins.")
 	private File extraPluginDirectory;
-	@Option(names = {"-h", "--headless"}, description = "Flag to skip over initializing the UI. Should be paired with -i or -s.")
+	@Option(names = {"--run-once"}, description = "Run startup actions and exit instead of staying alive as a background service.")
+	private boolean runOnce;
+	@Option(names = {"-H", "--headless"}, description = "Deprecated compatibility alias for --run-once.")
 	private boolean headless;
-	@Option(names = {"-q", "--silent"}, description = "Disable slf4j logging to std-out.")
+	@Option(names = {"--console"}, description = "Enable console logging while the background service is running.")
+	private boolean console;
+	@Option(names = {"-q", "--silent"}, description = "Disable console logging. Background service mode is silent by default.")
 	private boolean silent;
 	@Option(names = {"-v", "--version"}, description = "Display the version information.")
 	private boolean version;
@@ -50,7 +54,7 @@ public class LaunchCommand implements Callable<Boolean> {
 	@Override
 	public Boolean call() throws Exception {
 		boolean ret = false;
-		if (silent)
+		if (!console || silent)
 			RecafLoggingFilter.setConsoleLevel(Level.OFF);
 		if (dataDir != null)
 			System.setProperty("RECAF_DIR", dataDir.getAbsolutePath());
@@ -116,9 +120,31 @@ public class LaunchCommand implements Callable<Boolean> {
 	}
 
 	/**
-	 * @return Flag to skip over initializing the UI.
+	 * @return {@code true} when Recaf should execute startup actions and then exit.
 	 */
+	public boolean isRunOnce() {
+		return runOnce || headless;
+	}
+
+	/**
+	 * @return {@code true} when console logging should stay enabled.
+	 */
+	public boolean isConsoleLoggingEnabled() {
+		return console && !silent;
+	}
+
+	/**
+	 * @return {@code true} when console logging should be disabled.
+	 */
+	public boolean isSilent() {
+		return silent;
+	}
+
+	/**
+	 * @return Deprecated compatibility alias for {@link #isRunOnce()}.
+	 */
+	@Deprecated(forRemoval = false)
 	public boolean isHeadless() {
-		return headless;
+		return isRunOnce();
 	}
 }

@@ -1,8 +1,6 @@
 # Recaf [![Discord](https://dcbadge.limes.pink/api/server/https://discord.gg/Bya5HaA?style=flat)](https://discord.gg/Bya5HaA) [![codecov](https://codecov.io/gh/Col-E/Recaf/graph/badge.svg?token=N8GslpI1lL)](https://codecov.io/gh/Col-E/Recaf)  ![downloads](https://img.shields.io/github/downloads/Col-E/Recaf/total.svg) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](CONTRIBUTING.md)
 
-![Recaf 4x UI](recaf.png)
-
-An easy to use modern Java bytecode editor that abstracts away the complexities of Java programs.
+Recaf is a headless Java reverse-engineering service focused on scripting, plugins, and remote automation workflows.
 
 ## Download
 
@@ -48,7 +46,7 @@ To create your own script or plugin, see the [developer documentation](https://r
 
 ## Command Line
 
-Recaf can run as a command line application, which can be especially useful when paired with scripts provided at startup. You can see all the current launch arguments by passing `--help` as an application argument.
+Recaf now runs as a headless background service by default. Use `--run-once` when you want startup actions such as `--input` or `--script` to complete and then exit. You can see all current launch arguments by passing `--help`.
 
 ## Development Setup
 
@@ -62,4 +60,4 @@ Open the project in an IDE or generate the build with gradle.
 
 **Without IDE**:
 1. Run `gradlew build`
-    - Output will be located at: `recaf-ui/build/libs/recaf-ui-{VERSION}-all.jar`
+    - Output will be located at: `recaf-core/build/libs/recaf-core-{VERSION}-all.jar`

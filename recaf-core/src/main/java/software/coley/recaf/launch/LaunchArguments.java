@@ -85,10 +85,34 @@ public class LaunchArguments {
 	}
 
 	/**
-	 * @return Flag to skip over initializing the UI.
+	 * @return {@code true} when Recaf should execute startup actions and then exit.
 	 */
-	public boolean isHeadless() {
+	public boolean isRunOnce() {
 		if (command == null) return false;
-		return command.isHeadless();
+		return command.isRunOnce();
+	}
+
+	/**
+	 * @return {@code true} when console logging should stay enabled.
+	 */
+	public boolean isConsoleLoggingEnabled() {
+		if (command == null) return false;
+		return command.isConsoleLoggingEnabled();
+	}
+
+	/**
+	 * @return {@code true} when console logging should be disabled.
+	 */
+	public boolean isSilent() {
+		if (command == null) return false;
+		return command.isSilent();
+	}
+
+	/**
+	 * @return Deprecated compatibility alias for {@link #isRunOnce()}.
+	 */
+	@Deprecated(forRemoval = false)
+	public boolean isHeadless() {
+		return isRunOnce();
 	}
 }
